@@ -126,16 +126,16 @@ static void swipeEnd(void* self, SCallbackInfo& info, std::any param) {
     g_pOverview->onSwipeEnd();
 }
 
-static void onExpoDispatcher(std::string arg) {
+static SDispatchResult onExpoDispatcher(std::string arg) {
 
     if (swipeActive)
-        return;
+        return {};
     if (arg == "select") { 
         if (g_pOverview) {
             g_pOverview->selectHoveredWorkspace();
             g_pOverview->close();
         }
-        return;
+        return {};
     }
     if (arg == "toggle") {
         if (g_pOverview)
@@ -145,21 +145,22 @@ static void onExpoDispatcher(std::string arg) {
             g_pOverview       = std::make_unique<COverview>(g_pCompositor->m_lastMonitor->m_activeWorkspace);
             renderingOverview = false;
         }
-        return;
+        return {};
     }
 
     if (arg == "off" || arg == "close" || arg == "disable") {
         if (g_pOverview)
             g_pOverview->close();
-        return;
+        return {};
     }
 
     if (g_pOverview)
-        return;
+        return {};
 
     renderingOverview = true;
     g_pOverview       = std::make_unique<COverview>(g_pCompositor->m_lastMonitor->m_activeWorkspace);
     renderingOverview = false;
+    return {};
 }
 
 static void failNotif(const std::string& reason) {
