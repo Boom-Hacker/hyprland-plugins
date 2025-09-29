@@ -176,11 +176,6 @@ void CHyprBar::handleDownEvent(SCallbackInfo& info, std::optional<ITouch::SDownE
     if (!VECINRECT(COORDS, 0, 0, assignedBoxGlobal().w, **PHEIGHT - 1)) {
 
         if (m_bDraggingThis) {
-            if (m_bTouchEv) {
-                ITouch::SDownEvent e = touchEvent.value();
-                g_pCompositor->warpCursorTo(Vector2D(e.pos.x, e.pos.y));
-                g_pInputManager->mouseMoveUnified(e.timeMs);
-            }
             g_pKeybindManager->m_dispatchers["mouse"]("0movewindow");
             Debug::log(LOG, "[hyprbars] Dragging ended on {:x}", (uintptr_t)PWINDOW.get());
         }
